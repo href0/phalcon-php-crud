@@ -54,7 +54,6 @@ class PatientsController extends Controller
 
     public function updateAction($id)
     {
-        // $patient = new Patients();
         $patient = Patients::findFirstById($id);
         $helper = $this->getDI()->get('helper');
         if(!$patient) {
