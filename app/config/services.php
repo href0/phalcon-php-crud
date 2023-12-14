@@ -11,7 +11,8 @@ use Phalcon\Session\Adapter\Stream as SessionAdapter;
 use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Url as UrlResolver;
 use Helper\ResponseHelper;
-
+use Middlewares\CorsMiddleware;
+use Phalcon\Events\Manager as EventsManager;
 /**
  * Shared configuration service
  */
@@ -126,4 +127,5 @@ $di->setShared('session', function () {
 $di->setShared('helper', function () {
     return new ResponseHelper();
 });
+
 

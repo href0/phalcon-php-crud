@@ -15,9 +15,11 @@ class ResponseHelper
         "result" => $result
       ];
       $response = new Response();
+      $response->setHeader('Access-Control-Allow-Origin', '*');
+      $response->setHeader("Content-Type", "application/json");
+      $response->setHeader("Accept", "application/json");
       $response->setStatusCode($code);
       $response->setJsonContent($data);
-
       return $response;
     }
 }

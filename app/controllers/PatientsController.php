@@ -9,9 +9,11 @@ class PatientsController extends Controller
     public function indexAction()
     {
         $response = new Response();
-        $patients = Patients::find();
-        $helper = $this->getDI()->get('helper');
-        return $helper->generateResponse(201, "success", "Get all patients", $patients);
+        $patients = Patients::find([
+            'order' => 'id desc'
+        ]);
+        $helper   = $this->getDI()->get('helper');
+        return $helper->generateResponse(200, "success", "Get all patients", $patients);
     }
 
     public function getAction($id)
@@ -32,18 +34,17 @@ class PatientsController extends Controller
         $patient->sex      = $data['sex'];
         $patient->religion = $data['religion'];
         $patient->phone    = $data['phone'];
-        $patient->address   = $data['address'];
+        $patient->address  = $data['address'];
         $patient->nik      = $data['nik'];
 
         $helper = $this->getDI()->get('helper');
         if($patient->validation() === false) {
             $this->response->setStatusCode(400);
-            $messages = array();
-            foreach ($patient->getMessages() as $message) {
-                array_push($messages, $message);
-                // array_push($messages, $message->getMessage());
-            }
-            return  $helper->generateResponse(400, "error", "Validation error", $messages);
+            // $messages = array();
+            // foreach ($patient->getMessages() as $message) {
+            //     // array_push($messages, $message->getMessage());
+            // }
+            return  $helper->generateResponse(400, "error", "Validation error", $patient->getMessages());
         }
 
         if($patient->save() === false) {
@@ -66,7 +67,7 @@ class PatientsController extends Controller
         $patient->religion = $data['religion'];
         $patient->phone    = $data['phone'];
         $patient->address  = $data['address'];
-        $patient->nik      = $data['nik'];
+        // $patient->nik      = $data['nik'];
 
         if($patient->validation() === false) {
             $this->response->setStatusCode(400);
